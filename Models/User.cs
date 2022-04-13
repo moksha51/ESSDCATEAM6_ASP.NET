@@ -22,9 +22,7 @@ namespace CATeam6.Models
 
         [Required]
         public byte[] PassHash { get; set; }
-
         //public string Password { get; set; }
-
         //[Required]
         //public virtual Session SessionId { get; set; }
 
