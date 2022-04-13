@@ -30,13 +30,14 @@ namespace CATeam6.Controllers
             Session session = dbContext.Sessions.FirstOrDefault(x => x.SessionId.Equals(SessionId));
             if (session == null) // dk if this is required
             {
-                return View("noOrders"); //TODO: Returns view of no orders
+                ViewData["Orders"] = null;
+                return View(); //TODO: Returns view of no orders
             }
             List<Orders> orders = dbContext.Orders.Where(x => x.UserId == session.UserId).ToList();
             ViewData["Orders"] = orders;
             if (orders.Count == 0)
             {
-                return View("noOrders"); //TODO: Returns view of no orders
+                return View(); //TODO: Returns view of no orders
             }
 
             //Creates list of all order details based off list of orders
@@ -46,7 +47,7 @@ namespace CATeam6.Controllers
 
             //Creates a reference list of products
             List<Products> products = dbContext.Products.ToList();
-            ViewData["OrderDetails"] = products;
+            ViewData["Products"] = products;
 
             //Creates a reference to user for use in View
             ViewData["User"] = session.UserId.Username;

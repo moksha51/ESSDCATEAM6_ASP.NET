@@ -6,13 +6,20 @@
 
 }
 
-
+@if (orders.Count == 0)
+{
+    <h2>Your cart is empty</h2>
+}
+else { 
 <table>
-    @foreach (List<OrderDetails> orderdetail in orderdetails) {
-        @foreach (OrderDetails orderdetailz in orderdetail) {
+    @foreach (List<OrderDetails> orderdetail in orderdetails)
+    {
+        @foreach (OrderDetails orderdetailz in orderdetail)
+        {
             DateTime datetime = orders.FirstOrDefault(x => x.Id == orderdetailz.OrdersId).OrderDateTime;
             <tr><th>@datetime</th></tr>
-            @foreach (Products productz in orderdetailz.ProductId) {
+            @foreach (Products productz in orderdetailz.ProductId)
+            {
                 Products product = products.FirstOrDefault(x => x.ProductId == productz.ProductId);
                 <tr>
                     <td>@product.ProductName</td>
@@ -22,5 +29,7 @@
         }
     }
 </table>
+}
+
 
 
