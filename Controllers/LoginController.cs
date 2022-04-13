@@ -28,7 +28,7 @@ namespace CATeam6.Controllers
             {
                 Guid sessionId = Guid.Parse(Request.Cookies["sessionId"]);
                 Session session = dbContext.Sessions.FirstOrDefault(x =>
-                    x.Id == sessionId
+                    x.SessionId == sessionId
                 );
 
                 if (session == null)
@@ -66,13 +66,13 @@ namespace CATeam6.Controllers
             // create a new session and tag to user
             Session session = new Session()
             {
-                User = user
+                UserId = user
             }; // no need to generate session ID 
             dbContext.Sessions.Add(session);
             dbContext.SaveChanges();
 
             // ask browser to save and send back these cookies next time
-            Response.Cookies.Append("SessionId", session.Id.ToString());
+            Response.Cookies.Append("SessionId", session.SessionId.ToString());
             Response.Cookies.Append("Username", user.Username);
 
             return RedirectToAction("Index", "Home");

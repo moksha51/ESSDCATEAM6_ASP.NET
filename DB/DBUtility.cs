@@ -18,6 +18,7 @@ namespace CATeam6.DB
         public void Seed()
         {
             SeedUsers();
+            // TODO: add SeedProducts() and respective products
         }
 
         public void SeedUsers()

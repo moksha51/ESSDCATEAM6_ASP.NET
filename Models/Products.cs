@@ -28,6 +28,7 @@ namespace CATeam6.Models
         public virtual ICollection<Orders> Orders { get; set; }
 
         public string IconURL { get; set; }
+
     }
 
 
