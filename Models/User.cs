@@ -11,10 +11,11 @@ namespace CATeam6.Models
 
         public User()
         {
-            UserId = new Guid();
+            Id = new Guid();
+
         }
 
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Username { get; set; }
@@ -22,10 +23,12 @@ namespace CATeam6.Models
         [Required]
         public byte[] PassHash { get; set; }
 
-        [Required]
-        public virtual Session SessionId { get; set; }
+        //public string Password { get; set; }
 
-        public virtual Orders Orders { get; set; }
+        //[Required]
+        //public virtual Session SessionId { get; set; }
+
+        //public virtual Orders Orders { get; set; }
 
 
 

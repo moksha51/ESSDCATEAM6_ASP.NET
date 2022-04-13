@@ -18,6 +18,7 @@ namespace CATeam6.DB
 
         // maps to a Sessions table in our database
         public DbSet<Session> Sessions { get; set; }
+        
 
     }
 }
