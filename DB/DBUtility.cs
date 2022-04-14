@@ -19,8 +19,11 @@ namespace CATeam6.DB
         {
             SeedUsers();
             // TODO: add SeedProducts() and respective products
+            SeedProuct();
         }
-
+        public void SeedProduct(){
+            
+        }
         public void SeedUsers()
         {
             HashAlgorithm sha = SHA256.Create();
