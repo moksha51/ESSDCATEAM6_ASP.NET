@@ -16,12 +16,12 @@ namespace CATeam6.Models
 
         public Guid Id { get; set; }
         [Required]
-        [Key]
         public int ProductId { get; set; }
         [Required]
         public string ProductName { get; set; }
         [Required]
-        public float UnitPrice { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        public double UnitPrice { get; set; }
         [Required]
         public string ProductDescription { get; set; }
 
