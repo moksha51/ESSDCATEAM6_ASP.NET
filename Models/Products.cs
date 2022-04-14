@@ -11,8 +11,10 @@ namespace CATeam6.Models
     {
         public Products()
         {
-            CartId = new List<Cart>();
+            Id = new Guid();
         }
+
+        public Guid Id { get; set; }
         [Required]
         [Key]
         public int ProductId { get; set; }

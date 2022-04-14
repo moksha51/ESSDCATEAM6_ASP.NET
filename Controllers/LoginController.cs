@@ -67,13 +67,13 @@ namespace CATeam6.Controllers
             // create a new session and tag to user
             Session session = new Session()
             {
-                UserId = user
+                User = user
             }; // no need to generate session ID 
             dBContext.Sessions.Add(session);
             dBContext.SaveChanges();
 
             // ask browser to save and send back these cookies next time
-            Response.Cookies.Append("SessionId", session.SessionId.ToString());
+            Response.Cookies.Append("SessionId", session.Id.ToString());
             Response.Cookies.Append("Username", user.Username);
 
             return RedirectToAction("Index", "Home");
