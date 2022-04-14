@@ -10,4 +10,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Cart\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Cart\" />
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\img\" />
+  </ItemGroup>
 </Project>
