@@ -15,9 +15,9 @@ namespace CATeam6.Models
         }
         public Guid Id { get; set; }
         [Required]
-        public virtual int ProductId { get; set; } 
+        public string SerialCode { get; set; }
         [Required]
-        public string SerialCode { get; set; } 
+        public virtual Guid ProductId { get; set; } 
         public virtual Guid OrdersId { get; set; }
 
     }

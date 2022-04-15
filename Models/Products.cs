@@ -13,7 +13,7 @@ namespace CATeam6.Models
         {
             Id = new Guid();
             Cart = new List<Cart>();
-            Orders = new List<Orders>();
+            OrderDetails = new List<OrderDetails>();
         }
 
         public Guid Id { get; set; }
@@ -28,7 +28,7 @@ namespace CATeam6.Models
         [Required]
         public string ProductDescription { get; set; }
         public virtual ICollection<Cart> Cart {get;set;}
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 
 
 

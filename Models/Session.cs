@@ -16,6 +16,6 @@ namespace CATeam6.Models
 
         public Guid Id { get; set; }
         public long Timestamp { get; set; }
-        public virtual string Username { get; set; }
+        public virtual User User { get; set; }
     }
 }

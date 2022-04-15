@@ -14,15 +14,12 @@ namespace CATeam6.Models
             OrderDateTime = DateTime.Now;
             OrderDetails = new List<OrderDetails>();
             UserId = userID;
-            //Products = new List<Products>();
 
         }
 
         public Guid Id { get; set; }
         [Required]
         public DateTime OrderDateTime {get;set;}
-        //[Required]
-        //public virtual ICollection<Products> Products { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         [Required]
         public virtual Guid UserId { get; set; }
