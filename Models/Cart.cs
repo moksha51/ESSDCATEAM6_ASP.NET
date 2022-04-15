@@ -11,21 +11,13 @@ namespace CATeam6.Models
         public Cart()
         {
             CartId = new Guid();
-            //Products = new List<Products>();
+
         }
         
         public Guid CartId { get; set; }
-
         public int Quantity { get; set; }
-
-        //public virtual ICollection<Products> Products { get; set; }
-
-        public virtual Products Product { get; set; } //new
-
+        public virtual Products Product { get; set; } 
         public virtual User UserId { get; set; }
-
         public virtual Session SessionId { get; set; }
-        //hello
-        //helloagain
     }
 }

@@ -8,25 +8,24 @@ namespace CATeam6.Models
 {
     public class Orders
     {
-        public Orders()
+        public Orders(Guid userID)
         {
             Id = new Guid();
+            OrderDateTime = DateTime.Now;
             OrderDetails = new List<OrderDetails>();
-            Products = new List<Products>();
-            //ActCodes = new List<ActCode>();
+            UserId = userID;
+            //Products = new List<Products>();
 
         }
-        public Guid Id { get; set; }
 
+        public Guid Id { get; set; }
         [Required]
         public DateTime OrderDateTime {get;set;}
-
-        [Required]
-        public virtual ICollection<Products> Products { get; set; }
+        //[Required]
+        //public virtual ICollection<Products> Products { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-
         [Required]
-        public virtual User UserId { get; set; }
+        public virtual Guid UserId { get; set; }
 
     }
 }

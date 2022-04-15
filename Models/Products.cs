@@ -12,6 +12,8 @@ namespace CATeam6.Models
         public Products()
         {
             Id = new Guid();
+            Cart = new List<Cart>();
+            Orders = new List<Orders>();
         }
 
         public Guid Id { get; set; }
@@ -19,17 +21,16 @@ namespace CATeam6.Models
         public int ProductId { get; set; }
         [Required]
         public string ProductName { get; set; }
+        public string IconURL { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:00}")]
         public double UnitPrice { get; set; }
         [Required]
         public string ProductDescription { get; set; }
-
-        public virtual ICollection<Cart> CartId {get;set;}
-
+        public virtual ICollection<Cart> Cart {get;set;}
         public virtual ICollection<Orders> Orders { get; set; }
 
-        public string IconURL { get; set; }
+
 
     }
 
