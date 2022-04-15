@@ -35,15 +35,17 @@ namespace CATeam6.Models
         }
         private void NewOrder(Dictionary<Products, int> productDetail)
         {
-            Orders newOrder = new Orders(UserId);
+            Orders newOrder = new Orders();
+            newOrder.UserId = UserId;
             createOrderDB.Add(newOrder);
+
             foreach (var item in productDetail) // for each key value pair in the dict(product,quantity)
             {
                 for (int i = 0; i < item.Value; i++) //loop quantity time to add all the products in his cart to the order
                 {
                     createOrderDB.Add(new OrderDetails
                     {
-                        ProductId = item.Key.ProductId,
+                        ProductId = item.Key.Id,
                         OrdersId = newOrder.Id
                     });
                 }

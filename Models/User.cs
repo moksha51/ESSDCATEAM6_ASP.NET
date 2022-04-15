@@ -22,7 +22,7 @@ namespace CATeam6.Models
         [Required]
         public byte[] PassHash { get; set; }
         [Required]
-        public virtual Session SessionId { get; set; }
+        //public virtual Session SessionId { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
         public virtual ICollection<Cart> Cart { get; set; }
 

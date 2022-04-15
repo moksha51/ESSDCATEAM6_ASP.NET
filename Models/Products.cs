@@ -23,7 +23,7 @@ namespace CATeam6.Models
         public string ProductName { get; set; }
         public string IconURL { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:00}")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public double UnitPrice { get; set; }
         [Required]
         public string ProductDescription { get; set; }

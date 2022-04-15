@@ -8,12 +8,11 @@ namespace CATeam6.Models
 {
     public class Orders
     {
-        public Orders(Guid userID)
+        public Orders()
         {
             Id = new Guid();
             OrderDateTime = DateTime.Now;
             OrderDetails = new List<OrderDetails>();
-            UserId = userID;
 
         }
 

@@ -18,6 +18,7 @@ namespace CATeam6.Models
         public int Quantity { get; set; }
         public virtual Products Product { get; set; } 
         public virtual User UserId { get; set; }
+        [Required]
         public virtual Session SessionId { get; set; }
     }
 }
