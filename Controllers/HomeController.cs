@@ -28,6 +28,15 @@ namespace CATeam6.Controllers
         public IActionResult Index()
         {
             Session session = ValidateSession();
+            // No cookie (Brand new user) case: Make cookies
+            if (session == null) {               
+                Session newSession = new Session();
+                dBContext.Add(newSession);
+                dBContext.SaveChanges();
+                string newSessionId = newSession.Id.ToString();
+                Response.Cookies.Append("SessionId", newSessionId);
+            }
+
             //TODO: Display cart status based on session
             DBUtility db = new DBUtility(dBContext);
             List<Products> allProducts = dBContext.Products.ToList(); //Show all products on the Homepage 
@@ -37,24 +46,16 @@ namespace CATeam6.Controllers
 
         private Session ValidateSession()
         {
-            // No cookie (Brand new user) case: Make cookies
-            if (Request.Cookies["SessionId"] == null)
-            {
-                Session newSession = new Session();
-                string newSessionId = newSession.Id.ToString();
-                Response.Cookies.Append("SessionId", newSessionId);
-                dBContext.Add(newSession);
-                dBContext.SaveChanges();
-                return newSession;
-            }
-
             //Cookies available (Returning user) case
-            Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
-            Session session = dBContext.Sessions.FirstOrDefault(x =>
-                x.Id == sessionId
-            );
-
-            return session;
+            if (Request.Cookies["SessionId"] != null)
+            {
+                Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
+                Session session = dBContext.Sessions.FirstOrDefault(x =>
+                    x.Id == sessionId
+                );
+                return session;
+            }
+            return null;
         }
         public IActionResult About()
         {
