@@ -7,33 +7,13 @@
 
 }
 
-@if (orders.Count == 0)
+@if (orders == null)
 {
     <h2>Your cart is empty</h2>
 }
 
 
-else
-{
-    <table>
-        @foreach (List<OrderDetails> orderdetail in orderdetails)
-        {
-            @foreach (OrderDetails orderdetailz in orderdetail)
-            {
-                DateTime datetime = orders.FirstOrDefault(x => x.Id == orderdetailz.OrdersId).OrderDateTime;
-                <tr><th>@datetime</th></tr>
-                @foreach (Products productz in orderdetailz.ProductId)
-                {
-                    Products product = products.FirstOrDefault(x => x.ProductId == productz.ProductId);
-                    <tr>
-                        <td>@product.ProductName</td>
-                        <td>@orderdetailz.SerialCode</td> @*TODO: change code to dynamically display for multiple quantity, xj typing a test statement here again*@
-                    </tr>
-                }
-            }
-        }
-    </table>
-}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -174,28 +154,31 @@ else
             <div class="col-lg-8">
                 <div class="mb-4">
                     <div class="card-body">
-                        <h5 class="font-weight-medium mb-3">Products</h5>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 1</p>
-                            <p>$XXX</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 2</p>
-                            <p>$XXX</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 3</p>
-                            <p>$XXX</p>
-                        </div>
-                        <hr class="mt-0">
-
+                        @if (orders == null)
+                        {
+                            <h2>Your cart is empty</h2>
+                        }
+                        else
+                        {
+                            <h5 class="font-weight-medium mb-3">Products</h5>
+                            <div class="d-flex justify-content-between">
+                                <p>Colorful Stylish Shirt 1</p>
+                                <p>$XXX</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <p>Colorful Stylish Shirt 2</p>
+                                <p>$XXX</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <p>Colorful Stylish Shirt 3</p>
+                                <p>$XXX</p>
+                            </div>
+                            <hr class="mt-0">
+                        }
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
     <!-- Checkout End -->
     <!-- Footer Start -->
