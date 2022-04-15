@@ -1,28 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
-    List<Products> priceAsce = (List<Products>)ViewData["priceAsce"];
-    List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
-
     string searchStr = (string)ViewData["searchStr"];
-
 }
 
 
 @{
+
     <form action="/Search/" method="POST" style="padding:20px">
         <b>Search Products:</b> <input name="searchStr" value="@searchStr" style="width:75%" />
     </form>
 
     <p></p>
 }
-<b>Sort By:</b>
-<a href="/Sort/SortAsce">Low to High</a> |
-<a href="/Sort/SortDesc">High to Low</a> |
-<a href="/Sort/SortNameA">A to Z</a> |
-<a href="/Sort/SortNameZ">Z to A</a> |
-
-
 
 <div class="container">
     <div class="row mx-auto">
