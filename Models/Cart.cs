@@ -23,7 +23,7 @@ namespace CATeam6.Models
         public virtual User UserId { get; set; }
 
         public virtual Session SessionId { get; set; }
-
+        //hello
 
     }
 }
