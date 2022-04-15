@@ -22,6 +22,7 @@ namespace CATeam6.DB
         public DbSet<Orders> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
     }
 }

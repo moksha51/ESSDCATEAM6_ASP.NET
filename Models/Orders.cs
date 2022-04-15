@@ -12,6 +12,8 @@ namespace CATeam6.Models
         {
             Id = new Guid();
             OrderDetails = new List<OrderDetails>();
+            Products = new List<Products>();
+            //ActCodes = new List<ActCode>();
 
         }
         public Guid Id { get; set; }
@@ -20,6 +22,7 @@ namespace CATeam6.Models
         public DateTime OrderDateTime {get;set;}
 
         [Required]
+        public virtual ICollection<Products> Products { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 
         [Required]

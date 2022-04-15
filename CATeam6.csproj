@@ -11,7 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Cart\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Cart\" />
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\img\" />
+  </ItemGroup>
     <Folder Include="wwwroot\Image\" />
   </ItemGroup>
-
 </Project>

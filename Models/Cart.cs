@@ -20,6 +20,8 @@ namespace CATeam6.Models
 
         //public virtual ICollection<Products> Products { get; set; }
 
+        public virtual Products Product { get; set; } //new
+
         public virtual User UserId { get; set; }
 
         public virtual Session SessionId { get; set; }

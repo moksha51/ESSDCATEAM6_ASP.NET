@@ -20,6 +20,7 @@ namespace CATeam6.DB
             SeedUsers();
             // TODO: add SeedProducts() and respective products
 
+
             SeedProduct();
         }
 
