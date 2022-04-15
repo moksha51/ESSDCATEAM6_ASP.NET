@@ -27,13 +27,17 @@ namespace CATeam6.Controllers
             }
 
             //Captures the current userId based on session information and retrieves list of orders
+
             Session session = dbContext.Sessions.FirstOrDefault(x => x.SessionId.Equals(SessionId));
+
             if (session == null) // dk if this is required
             {
                 ViewData["Orders"] = null;
                 return View(); //TODO: Returns view of no orders
             }
+
             List<Orders> orders = dbContext.Orders.Where(x => x.UserId == session.UserId).ToList();
+
             ViewData["Orders"] = orders;
             if (orders.Count == 0)
             {
@@ -51,6 +55,7 @@ namespace CATeam6.Controllers
 
             //Creates a reference to user for use in View
             ViewData["User"] = session.UserId.Username;
+
 
             return View();
         }

@@ -20,4 +20,6 @@
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
   </ItemGroup>
+    <Folder Include="wwwroot\Image\" />
+  </ItemGroup>
 </Project>

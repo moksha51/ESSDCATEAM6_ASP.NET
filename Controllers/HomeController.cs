@@ -15,6 +15,7 @@ namespace CATeam6.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly MyDBContext dBContext;
         private readonly IWebHostEnvironment env;
 
@@ -25,7 +26,7 @@ namespace CATeam6.Controllers
             this.env = env;
             this.dBContext = dBContext;
         }
-
+        //Show all products on the Home page 
         public IActionResult Index()
         {
             Session session = ValidateSession();
@@ -34,8 +35,18 @@ namespace CATeam6.Controllers
                 // no session; bring user to Login page
                 return RedirectToAction("Index", "Login");
             }
+
+
+            DBUtility db = new DBUtility(dBContext);
+            List<Products> allProducts = dBContext.Products.ToList();
+            ViewData["AllProducts"] = allProducts;
             return View();
         }
+        public IActionResult About()
+        {
+            return View();
+        }
+
         private Session ValidateSession()
         {
             // check if there is a SessionId cookie
