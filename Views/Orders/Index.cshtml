@@ -1,0 +1,35 @@
+﻿@{ 
+    List<Orders> orders = (List<Orders>)ViewData["Orders"];
+    List<List<OrderDetails>> orderdetails = (List<List<OrderDetails>>)ViewData["OrderDetails"];
+    List<Products> products = (List<Products>)ViewData["Products"];
+    string userName = (string)ViewData["User"];
+
+}
+
+@if (orders.Count == 0)
+{
+    <h2>Your cart is empty</h2>
+}
+else { 
+<table>
+    @foreach (List<OrderDetails> orderdetail in orderdetails)
+    {
+        @foreach (OrderDetails orderdetailz in orderdetail)
+        {
+            DateTime datetime = orders.FirstOrDefault(x => x.Id == orderdetailz.OrdersId).OrderDateTime;
+            <tr><th>@datetime</th></tr>
+            @foreach (Products productz in orderdetailz.ProductId)
+            {
+                Products product = products.FirstOrDefault(x => x.ProductId == productz.ProductId);
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@orderdetailz.SerialCode</td> @*TODO: change code to dynamically display for multiple quantity, xj typing a test statement here again*@
+                </tr>
+            }
+        }
+    }
+</table>
+}
+
+
+
