@@ -11,15 +11,13 @@ namespace CATeam6.Models
         public OrderDetails()
         {
             Id = new Guid();
+            SerialCode = Id.ToString();
         }
         public Guid Id { get; set; }
-
         [Required]
-        public virtual ICollection<Products> ProductId { get; set; } //To consider changing toa regular string; regular referencing can be made, no need to link tables
-
+        public string SerialCode { get; set; }
         [Required]
-        public string SerialCode { get; set; } //generated at checkout?
-
+        public virtual Guid ProductId { get; set; } 
         public virtual Guid OrdersId { get; set; }
 
     }

@@ -15,60 +15,56 @@ namespace CATeam6.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly MyDBContext dBContext;
         private readonly IWebHostEnvironment env;
-
-
 
         public HomeController(IWebHostEnvironment env, MyDBContext dBContext)
         {
             this.env = env;
             this.dBContext = dBContext;
         }
-        //Show all products on the Home page 
+
+        
         public IActionResult Index()
         {
             Session session = ValidateSession();
-            if (session == null)
-            {
-                // no session; bring user to Login page
-                return RedirectToAction("Index", "Login");
+            // No cookie (Brand new user) case: Make cookies
+            if (session == null) {               
+                Session newSession = new Session();
+                dBContext.Add(newSession);
+                dBContext.SaveChanges();
+                string newSessionId = newSession.Id.ToString();
+                Response.Cookies.Append("SessionId", newSessionId);
             }
 
-
+            //TODO: Display cart status based on session
             DBUtility db = new DBUtility(dBContext);
-            List<Products> allProducts = dBContext.Products.ToList();
+            List<Products> allProducts = dBContext.Products.ToList(); //Show all products on the Homepage 
             ViewData["AllProducts"] = allProducts;
-            return View();
-        }
-        public IActionResult About()
-        {
             return View();
         }
 
         private Session ValidateSession()
         {
-            // check if there is a SessionId cookie
-            if (Request.Cookies["SessionId"] == null)
+            //Cookies available (Returning user) case
+            if (Request.Cookies["SessionId"] != null)
             {
-                return null;
+                Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
+                Session session = dBContext.Sessions.FirstOrDefault(x =>
+                    x.Id == sessionId
+                );
+                return session;
             }
-
-            // convert into a Guid type (from a string type)
-            Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
-            Session session = dBContext.Sessions.FirstOrDefault(x =>
-                x.Id == sessionId
-            );
-
-            return session;
+            return null;
         }
-
+        public IActionResult About()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

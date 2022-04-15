@@ -18,13 +18,8 @@ namespace CATeam6.DB
         public void Seed()
         {
             SeedUsers();
-            // TODO: add SeedProducts() and respective products
-
-
             SeedProduct();
         }
-
-
 
         public void SeedProduct()
         {
@@ -144,10 +139,6 @@ namespace CATeam6.DB
                 IconURL = "image13.png"
             });
 
-
-
-
-
             dbContext.SaveChanges();
         }
 
@@ -165,6 +156,7 @@ namespace CATeam6.DB
                     Username = username,
                     PassHash = hash
                 });
+
                 dbContext.SaveChanges();
             }
         }

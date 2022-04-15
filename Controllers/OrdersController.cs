@@ -21,28 +21,28 @@ namespace CATeam6.Controllers
         public IActionResult Index()
         {
             //This method will check if user is logged in to access puchases page, if not: redirect to home/index
-            string SessionId = HttpContext.Request.Cookies["SessionId"];
-            if (SessionId == null) {
+            if (Request.Cookies["SessionId"] == null ) {
                 return RedirectToAction("Index", "Home");
+            }
+            Session session = dbContext.Sessions.FirstOrDefault(x => x.Id == Guid.Parse(Request.Cookies["SessionId"]));
+            User user = session.User;
+
+
+            if (session.User == null) {
+                return RedirectToAction("Index", "Login");
             }
 
             //Captures the current userId based on session information and retrieves list of orders
+            List<Orders> orders = dbContext.Orders.Where(x => x.UserId == user.Id).ToList();
 
-            Session session = dbContext.Sessions.FirstOrDefault(x => x.SessionId.Equals(SessionId));
-
-            if (session == null) // dk if this is required
+            if (orders.Count() == 0)
             {
                 ViewData["Orders"] = null;
                 return View(); //TODO: Returns view of no orders
             }
 
-            List<Orders> orders = dbContext.Orders.Where(x => x.UserId == session.UserId).ToList();
-
             ViewData["Orders"] = orders;
-            if (orders.Count == 0)
-            {
-                return View(); //TODO: Returns view of no orders
-            }
+
 
             //Creates list of all order details based off list of orders
             List<List<OrderDetails>> orderDetails = new List<List<OrderDetails>>();
@@ -54,8 +54,7 @@ namespace CATeam6.Controllers
             ViewData["Products"] = products;
 
             //Creates a reference to user for use in View
-            ViewData["User"] = session.UserId.Username;
-
+            ViewData["User"] = user;
 
             return View();
         }
