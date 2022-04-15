@@ -19,6 +19,7 @@ namespace CATeam6.DB
         {
             SeedUsers();
             // TODO: add SeedProducts() and respective products
+
             SeedProduct();
         }
 
@@ -148,8 +149,6 @@ namespace CATeam6.DB
 
             dbContext.SaveChanges();
         }
-
-
 
         public void SeedUsers()
         {
