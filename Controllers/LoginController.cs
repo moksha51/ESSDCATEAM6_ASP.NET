@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using CATeam6.Models;
 using CATeam6.DB;
 using System;
+using System.Collections.Generic;
 
 namespace CATeam6.Controllers
 {
@@ -28,6 +29,7 @@ namespace CATeam6.Controllers
                 Session session = dBContext.Sessions.FirstOrDefault(x =>
                     x.Id == sessionId
                 );
+                User user = session.User;
 
                 if (session == null)
                 {
@@ -36,12 +38,17 @@ namespace CATeam6.Controllers
                     return RedirectToAction("Index", "Logout");
                 }
 
-                // valid Session ID; route to Home page
+                if (user == null) {
+                    // allow login to link user and sessionId
+                    return View();
+                }
+
+                // valid Session ID + corresponding user; route to Home page
                 return RedirectToAction("Index", "Home");
             }
 
-            // no Session ID; show Login page
-            return View();
+            // no Session ID; route to homepage to get cookies
+            return RedirectToAction("Index", "Home");
         
 
         }
@@ -59,22 +66,26 @@ namespace CATeam6.Controllers
                 x.PassHash == hash
             );
 
-            if (user == null)
+            if (user == null) //invalid user case
             {
+                TempData["Warning"] = "Invalid User"; //Can use this to display message via js 
                 return RedirectToAction("Index", "Login");
             }
 
             // create a new session and tag to user
-            Session session = new Session()
-            {
-                UserId = user
-            }; // no need to generate session ID 
-            dBContext.Sessions.Add(session);
-            dBContext.SaveChanges();
+            Session session = dBContext.Sessions.FirstOrDefault(x => x.Id == Guid.Parse(Request.Cookies["SessionId"]));
+            session.User = user;
 
             // ask browser to save and send back these cookies next time
-            Response.Cookies.Append("SessionId", session.SessionId.ToString());
             Response.Cookies.Append("Username", user.Username);
+
+            //Merge session cart and user cart if required
+            List<Cart> sessionCart = dBContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
+            if (sessionCart.Count() != 0) {
+                foreach (Cart c in sessionCart) {
+                    c.UserId = user;
+                }
+            }
 
             return RedirectToAction("Index", "Home");
         }
