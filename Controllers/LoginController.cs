@@ -49,8 +49,6 @@ namespace CATeam6.Controllers
 
             // no Session ID; route to homepage to get cookies
             return RedirectToAction("Index", "Home");
-        
-
         }
         public IActionResult Login(IFormCollection form)
         {
@@ -75,6 +73,7 @@ namespace CATeam6.Controllers
             // create a new session and tag to user
             Session session = dBContext.Sessions.FirstOrDefault(x => x.Id == Guid.Parse(Request.Cookies["SessionId"]));
             session.User = user;
+            dBContext.SaveChanges();
 
             // ask browser to save and send back these cookies next time
             Response.Cookies.Append("Username", user.Username);
@@ -85,6 +84,7 @@ namespace CATeam6.Controllers
                 foreach (Cart c in sessionCart) {
                     c.UserId = user;
                 }
+                dBContext.SaveChanges();
             }
 
             return RedirectToAction("Index", "Home");

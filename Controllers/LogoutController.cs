@@ -29,8 +29,6 @@ namespace CATeam6.Controllers
                 {
                     // delete session record from our database;
                     dBContext.Remove(session);
-
-                    // commit to save changes
                     dBContext.SaveChanges();
                 }
             }

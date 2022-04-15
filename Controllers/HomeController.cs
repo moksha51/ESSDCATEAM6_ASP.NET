@@ -37,8 +37,6 @@ namespace CATeam6.Controllers
 
         private Session ValidateSession()
         {
-
-
             // No cookie (Brand new user) case: Make cookies
             if (Request.Cookies["SessionId"] == null)
             {
