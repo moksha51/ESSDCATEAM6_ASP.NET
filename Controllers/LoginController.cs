@@ -29,7 +29,7 @@ namespace CATeam6.Controllers
                 Session session = dBContext.Sessions.FirstOrDefault(x =>
                     x.Id == sessionId
                 );
-                User user = session.User;
+                
 
                 if (session == null)
                 {
@@ -38,17 +38,21 @@ namespace CATeam6.Controllers
                     return RedirectToAction("Index", "Logout");
                 }
 
-                if (user == null) {
+                if (session.User == null)
+                {
                     // allow login to link user and sessionId
                     return View();
                 }
+                else {
+                    // valid Session ID + corresponding user; route to Home page
+                    return RedirectToAction("Index", "Home");
+                }
 
-                // valid Session ID + corresponding user; route to Home page
-                return RedirectToAction("Index", "Home");
             }
 
             // no Session ID; route to homepage to get cookies
             return RedirectToAction("Index", "Home");
+
         }
         public IActionResult Login(IFormCollection form)
         {
