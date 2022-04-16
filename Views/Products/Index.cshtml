@@ -1,40 +1,52 @@
-﻿@{ ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Home Page";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
+    List<Products> priceAsce = (List<Products>)ViewData["priceAsce"];
     List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
-    string searchStr = (string)ViewData["searchStr"]; 
+
+    string searchStr = (string)ViewData["searchStr"];
+
 }
+
 
 @{
     <form action="/Search/" method="POST" style="padding:20px">
         <b>Search Products:</b> <input name="searchStr" value="@searchStr" style="width:75%" />
-    </form> 
-}
+    </form>
 
+    <p></p>
+}
 <b>Sort By:</b>
 <a href="/Sort/SortAsce">Low to High</a> |
-<a href="/Sort/SortDesc"><b>High to Low</b></a> |
+<a href="/Sort/SortDesc">High to Low</a> |
 <a href="/Sort/SortNameA">A to Z</a> |
 <a href="/Sort/SortNameZ">Z to A</a> |
-<a href="/Home/Index">Clear</a>
+
+
 
 
 <div class="container">
     <div class="row mx-auto">
         @{foreach (Products products in allProducts)
             {
-        <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
-            <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/img/@products.IconURL" alt="Product Image TBF">
+                <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
+                    <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/Image/@products.IconURL" alt="Product Image TBF">
 
-            <div class="card-body">
-                <h5 class="card-title text-center">@products.ProductName</h5>
-                <p class="card-text text-center">@products.ProductDescription</p>
-                <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice.ToString("#,0.00")</p>
-                <p class="card-text text-center" id="@products.ProductId"></p>
-            </div>
-            <div class="card-text text-center">
-                <a onclick="addToCart(@products.ProductId);" class="btn btn-primary" style="color:white; background-color:royalblue; border-color:royalblue;">Add to Cart</a>
-                <a onclick="removeFromCart(@products.ProductId);" class="btn btn-primary" style="color: white; background-color:dimgrey; border-color:dimgrey; margin: 1rem;">Remove from Cart</a>
-            </div>
-        </div> } }
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@products.ProductName</h5>
+                        <p class="card-text text-center">@products.ProductDescription</p>
+                        <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice.ToString("0.00")</p>
+                        <p class="card-text text-center" id="@products.ProductId"></p>
+                    </div>
+
+                    <div class="card-text text-center">
+                        <a onclick="addToCart(@products.ProductId);" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <br />
+                    </div>
+
+                </div>
+            }
+        }
     </div>
 </div>
+

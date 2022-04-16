@@ -42,6 +42,18 @@
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
+
+                    @{ if (Context.Request.Cookies["Username"] != null)
+                        {
+                            <div>
+                                <b>&ensp; @Context.Request.Cookies["Username"]</b> [<a href='/Logout/Index'> Logout</a>]
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Login")" class="nav-item nav-link"> Login  </a>
+                        }
+                    }
                     <a class="text-dark px-2" href="">
                         <i class="fab fa-facebook-f"></i>
                     </a>
@@ -57,11 +69,6 @@
                     <a class="text-dark pl-2" href="">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    @if (Context.Request.Cookies["Username"] != null)
-                    {
-                        <div>
-                            <b>@Context.Request.Cookies["Username"]</b> [<a href='/Logout/Index'>Logout</a>]
-                        </div>}
                 </div>
             </div>
         </div>
@@ -81,9 +88,6 @@
                                     <a href="@Url.Action("Index", "Cart")" class="nav-item nav-link">Cart</a>
                                     <a href="@Url.Action("Index", "Orders")" class="nav-item nav-link">Orders</a>
 
-                                </div>
-                                <div class="navbar-nav ml-auto py-0">
-                                    <a href="@Url.Action("Index", "Login")" class="nav-item nav-link">Login</a>
                                 </div>
                                 <div class="col-lg-3 col-6 text-right">
                                     <a href="" class="btn border">
