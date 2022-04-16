@@ -1,9 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
-    List<Products> priceAsce = (List<Products>)ViewData["priceAsce"];
     List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
-
+    
     string searchStr = (string)ViewData["searchStr"];
 
 }
@@ -17,17 +16,15 @@
     <p></p>
 }
 <b>Sort By:</b>
-<a href="/Sort/SortAsce">Low to High</a> |
-<a href="/Sort/SortDesc">High to Low</a> |
-<a href="/Sort/SortNameA">A to Z</a> |
-<a href="/Sort/SortNameZ">Z to A</a> |
-
-
-
+<a href="/ProductsSort/PriceAsce">Low to High</a> |
+<a href="/ProductsSort/PriceDesc"><b>High to Low</b></a> |
+<a href="/ProductsSort/NameAsce">A to Z</a> |
+<a href="/ProductsSort/NameDesc">Z to A</a> |
+<a href="/Home/Index">Clear</a>
 
 <div class="container">
     <div class="row mx-auto">
-        @{foreach (Products products in allProducts)
+        @{foreach (Products products in priceDesc)
             {
                 <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
                     <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/Image/@products.IconURL" alt="Product Image TBF">
