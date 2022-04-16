@@ -1,40 +1,38 @@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Login";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
     string searchStr = (string)ViewData["searchStr"];
 }
 
 
-@{
 
-    <form action="/Search/" method="POST" style="padding:20px">
-        <b>Search Products:</b> <input name="searchStr" value="@searchStr" style="width:75%" />
-    </form>
-
-    <p></p>
-}
-
-<div class="container">
-    <div class="row mx-auto">
-        @{foreach (Products products in allProducts)
-            {
-                <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
-                    <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/Image/@products.IconURL" alt="Product Image TBF">
-
-                    <div class="card-body">
-                        <h5 class="card-title text-center">@products.ProductName</h5>
-                        <p class="card-text text-center">@products.ProductDescription</p>
-                        <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice</p>
-                        <p class="card-text text-center" id="@products.ProductId"></p>
-                    </div>
-
-                    <div class="card-text text-center">
-                        <a onclick="addToCart(@products.ProductId);" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                    </div>
-
+<form action="/Login/Login" method="POST">
+    <div style="text-align:center">
+        <div class="my_tbl">
+            <div class="my_row">
+                <div class="my_cell">
+                    Username:
                 </div>
-            }
-        }
+                <div class="my_cell">
+                    <input name="username" />
+                </div>
+            </div>
+            <div class="my_row">
+                <div class="my_cell">
+                    Password:
+                </div>
+                <div class="my_cell">
+                    <input name="password" type="password" />
+                </div>
+            </div>
+            <br>
+            <div class="my_row">
+                <div class="my_cell"></div>
+                <div class="my_cell" style="text-align: center">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
