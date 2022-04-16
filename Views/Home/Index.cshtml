@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">@products.ProductName</h5>
                         <p class="card-text text-center">@products.ProductDescription</p>
-                        <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice</p>
+                        <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice.ToString("0.00")</p>
                         <p class="card-text text-center" id="@products.ProductId"></p>
                     </div>
 
