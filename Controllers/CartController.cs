@@ -21,7 +21,6 @@ namespace CATeam6.Controllers
         {
             return View();
         }
-
         public IActionResult CheckOut()
         {
             Session session = GetSession();
@@ -36,8 +35,7 @@ namespace CATeam6.Controllers
             orderMaker.MakeOrder();  //with passing the data to user/product/order/actcode tables, the his data in cartitem table will be deleted.
             return RedirectToAction("Index", "Orders");
         }
-
-        //[Route("Cart")]
+        [Route("Cart")]
         public IActionResult ViewCart()
         {
             List<Cart> cartItems;
@@ -46,12 +44,13 @@ namespace CATeam6.Controllers
             if (session == null)  //no session
             {
                 ViewData["cart"] = new List<Cart>(); //shows an empty cart
-                return View("Cart");
+                return View("Index");
             }
             else {
-                Guid userId = session.User.Id;  
-                if (userId != null)  //user has logged in; So show user's cart
+                 
+                if (session.User != null)  //user has logged in; So show user's cart
                 {
+                    Guid userId = session.User.Id;
                     cartItems = dbContext.Carts.Where(x => x.UserId.Id == userId).ToList();
                     ViewData["cart"] = cartItems;
                     string userCartAmt = cartItems.Sum(x => x.Quantity * x.Product.UnitPrice).ToString("#,0.00");
@@ -64,12 +63,11 @@ namespace CATeam6.Controllers
                     ViewData["userCartAmt"] = userCartAmt;
                 }
             }
-            return View("Cart");
+            return View("Index");
         }
-
-        public IActionResult Update([FromBody] UpdateCart values)
+        [HttpPost]
+        public IActionResult Add(int id)
         {
-            int newquantity;
             string userCartAmt;
             Cart cartItem;
             double amt;
@@ -78,36 +76,51 @@ namespace CATeam6.Controllers
             if (session.User != null) //if user has already logged in, use user's cart
             {
                 Guid userId = session.User.Id;
-                newquantity = values.Quantity;
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == userId && x.Product.ProductId == id);
 
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == userId && x.Product.ProductId == values.ProductId);
-
-                if (cartItem != null)
+                if (cartItem == null)
                 {
-                    cartItem.Quantity = newquantity;
+                    Cart newCartItem = new Cart()
+                    {
+                        Product = dbContext.Products.FirstOrDefault(x => x.ProductId == id),
+                        Quantity = 1,
+                        SessionId = session,
+                        UserId = session.User
+                    };
+                    dbContext.Add(newCartItem);
+                    dbContext.SaveChanges();
+                }
+                else {
+                    cartItem.Quantity++;
+                    dbContext.SaveChanges();
                 }
 
-                dbContext.SaveChanges();
-
                 amt = dbContext.Carts.Where(x => x.UserId.Id == userId).Sum(x => x.Quantity * x.Product.UnitPrice);
-
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
             else { //user not logged in yet, so link cart to session instead
                 Guid sessionId = session.Id;
-                newquantity = values.Quantity;
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == sessionId && x.Product.ProductId == id);
 
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == sessionId && x.Product.ProductId == values.ProductId);
-
-                if (cartItem != null)
+                if (cartItem == null)
                 {
-                    cartItem.Quantity = newquantity;
+                    Cart newCartItem = new Cart()
+                    {
+                        Product = dbContext.Products.FirstOrDefault(x => x.ProductId == id),
+                        Quantity = 1,
+                        SessionId = session,
+                        UserId = session.User
+                    };
+                    dbContext.Add(newCartItem);
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    cartItem.Quantity++;
+                    dbContext.SaveChanges();
                 }
 
-                dbContext.SaveChanges();
-
                 amt = dbContext.Carts.Where(x => x.SessionId.Id == sessionId).Sum(x => x.Quantity * x.Product.UnitPrice);
-
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
 
@@ -120,29 +133,64 @@ namespace CATeam6.Controllers
 
         }
 
-        public IActionResult Remove([FromBody] RemoveCart item)
+        public IActionResult Subtract(int id)
         {
-            int productId = item.ProductId;
             Cart cartItem;
             double amt;
             string userCartAmt;
 
             Session session = GetSession();
-            User user = session.User;
 
-            if (user == null)
+            if (session.User == null)
             {
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == item.ProductId);
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == id);
+                cartItem.Quantity--;
+                dbContext.SaveChanges();
+                amt = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
+                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
+            }
+            else
+            {
+
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == id);
+                cartItem.Quantity--;
+                dbContext.SaveChanges();
+                amt = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
+                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
+            }
+
+            return Json(new
+            {
+                status = "success",
+                userCartAmt
+            });
+        }
+/*
+ * 
+ * WIP
+ * 
+        public IActionResult Remove(int id)
+        {
+            Cart cartItem;
+            double amt;
+            string userCartAmt;
+
+            Session session = GetSession();
+
+            if (session.User == null)
+            {
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == id);
                 dbContext.Remove(cartItem);
                 dbContext.SaveChanges();
                 amt = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
             else {
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == user.Id && x.Product.ProductId == item.ProductId);
+                
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == id);
                 dbContext.Remove(cartItem);
                 dbContext.SaveChanges();
-                amt = dbContext.Carts.Where(x => x.UserId.Id == user.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
+                amt = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
 
@@ -153,6 +201,41 @@ namespace CATeam6.Controllers
             });
         }
 
+        public IActionResult Update([FromBody] int id, int qty) 
+        {
+            string userCartAmt;
+            Cart cartItem;
+            double amt;
+
+            Session session = GetSession();
+            if (session.User != null) //if user has already logged in, use user's cart
+            {
+                Guid userId = session.User.Id;
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == userId && x.Product.ProductId == id);
+                cartItem.Quantity = qty;
+                dbContext.SaveChanges();
+
+                amt = dbContext.Carts.Where(x => x.UserId.Id == userId).Sum(x => x.Quantity * x.Product.UnitPrice);
+                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
+            }
+            else
+            { //user not logged in yet, so link cart to session instead
+                Guid sessionId = session.Id;
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == sessionId && x.Product.ProductId == id);
+                cartItem.Quantity = qty;
+                dbContext.SaveChanges();
+
+                amt = dbContext.Carts.Where(x => x.SessionId.Id == sessionId).Sum(x => x.Quantity * x.Product.UnitPrice);
+                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
+            }
+
+            return Json(new
+            {
+                status = "success",
+                userCartAmt
+            });
+        }
+ */   
         private Session GetSession()
         {
             if (Request.Cookies["SessionId"] == null)

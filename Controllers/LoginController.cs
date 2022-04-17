@@ -74,7 +74,7 @@ namespace CATeam6.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            // create a new session and tag to user
+            //tags user to session
             Session session = dBContext.Sessions.FirstOrDefault(x => x.Id == Guid.Parse(Request.Cookies["SessionId"]));
             session.User = user;
             dBContext.SaveChanges();
@@ -84,13 +84,28 @@ namespace CATeam6.Controllers
 
             //Merge session cart and user cart if required
             List<Cart> sessionCart = dBContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
-            if (sessionCart.Count() != 0) {
-                foreach (Cart c in sessionCart) {
-                    c.UserId = user;
+            
+
+
+            if (sessionCart.Count() >= 0)
+            {
+                List<Cart> userCart = dBContext.Carts.Where(x => x.UserId.Id == user.Id).ToList();
+                foreach (Cart c in userCart)
+                {
+                    if (dBContext.Carts.FirstOrDefault(x => x.Product.ProductId == c.Product.ProductId && x.SessionId.Id == session.Id && x.UserId == null) != null) //products in session cart matching exisitng products in usercart but not tagged to user
+                    {
+                        Cart tempCart = dBContext.Carts.FirstOrDefault(x => x.Product.ProductId == c.Product.ProductId && x.SessionId.Id == session.Id && x.UserId == null);
+                        c.Quantity = c.Quantity + tempCart.Quantity;
+                        dBContext.Remove(tempCart);
+                    }
+                    if (dBContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.UserId == null) != null) //brand new products in session and not tagged to user
+                    { 
+                        c.UserId = user;
+                    }   
                 }
                 dBContext.SaveChanges();
             }
-
+            
             return RedirectToAction("Index", "Home");
         }
     }

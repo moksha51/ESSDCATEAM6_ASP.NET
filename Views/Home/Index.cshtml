@@ -8,6 +8,11 @@
 
 }
 
+@section Scripts {
+    <script src="~/js/site.js"></script>
+
+}
+
 
 @{
     <form action="/Search/" method="POST" style="padding:20px">
@@ -40,7 +45,9 @@
                     </div>
 
                     <div class="card-text text-center">
-                        <a onclick="addToCart(@products.ProductId);" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        @*below buttons are for testing purposes; For reference: Actual buttons/links need <... id="@products.ProductId" class="add_btn"/"subtract_btn" ...></> to work*@
+                        <a id="@products.ProductId" class="add_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <a id="@products.ProductId" class="subtract_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Remove from cart</a>
                     </div>
 
                 </div>

@@ -27,6 +27,11 @@ namespace CATeam6.Controllers
 
                 if (session != null)
                 {
+                    //Removes cart items tied to session so its only tied to user after logout
+                    List<Cart> cartList = dBContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
+                    foreach (Cart cart in cartList) {
+                        cart.SessionId = null;
+                    }
                     // delete session record from our database;
                     dBContext.Remove(session);
                     dBContext.SaveChanges();
