@@ -45,9 +45,9 @@
                     </div>
 
                     <div class="card-text text-center">
-                        @*below buttons are for testing purposes; For reference: Actual buttons/links need <... id="@products.ProductId" class="add_btn"/"subtract_btn" ...></> to work*@
-                        <a id="@products.ProductId" class="add_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        <a id="@products.ProductId" class="subtract_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Remove from cart</a>
+                        @*below buttons are for testing purposes; For reference: Actual buttons/links need <... onclick="Add/Subtract(@products.ProductId);" class="add_btn"/"subtract_btn" ...></> to work*@
+                        <a onclick="Add(@products.ProductId);" class="add_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <a onclick="Subtract(@products.ProductId);" class="subtract_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Remove from cart</a>
                     </div>
 
                 </div>
