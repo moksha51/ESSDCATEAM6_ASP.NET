@@ -46,7 +46,7 @@
                 var placeholder = "subtotal" + @cartitem.Product.ProductId;
                 var placeholder2 = "unitprice" + @cartitem.Product.ProductId;
                 var placeholder3 = "cartitem" + @cartitem.Product.ProductId;
-                var placeholder4 = "remove" + @cartitem.Product.ProductId;
+                var placeholder4 = @cartitem.Product.ProductId;
                 var rawSubtotal = @cartitem.Product.UnitPrice * @cartitem.Quantity;
                 var initSubtotal = Math.Round(rawSubtotal, 2).ToString("#,0.00");
 
@@ -68,7 +68,8 @@
                         $@initSubtotal
                     </td>
                     <td>
-                        <a id="@placeholder4" class="cartItem"><img src="/img/RemoveFromCartIcon.png" class="cart_RemoveIcon"></a>
+                        @*This is the button that activates the remove-item-from-cart js. Required is: <id="@cartitem.Product.ProductId" class="cartItem"><>*@
+                        <a id="@cartitem.Product.Id" class="cartItem"><img id="@cartitem.Product.ProductId" src="/img/RemoveFromCartIcon.png" class="cart_RemoveIcon"></a>
                     </td>
                 </tr>
             }

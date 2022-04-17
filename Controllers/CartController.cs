@@ -172,15 +172,11 @@ namespace CATeam6.Controllers
                 userCartAmt
             });
         }
-/*
- * 
- * WIP
- * 
-        public IActionResult Remove(int id)
+
+        public IActionResult Remove([FromBody] RemoveCart item)
         {
+            int id = int.Parse(item.ProductId);
             Cart cartItem;
-            double amt;
-            string userCartAmt;
 
             Session session = GetSession();
 
@@ -189,25 +185,20 @@ namespace CATeam6.Controllers
                 cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == id);
                 dbContext.Remove(cartItem);
                 dbContext.SaveChanges();
-                amt = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
-                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
             else {
                 
                 cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == id);
                 dbContext.Remove(cartItem);
                 dbContext.SaveChanges();
-                amt = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
-                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
 
             return Json(new
             {
-                status = "success",
-                userCartAmt
+                status = "success"
             });
         }
-
+/*
         public IActionResult Update([FromBody] int id, int qty) 
         {
             string userCartAmt;
