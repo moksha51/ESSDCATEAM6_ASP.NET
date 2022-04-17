@@ -38,16 +38,22 @@ namespace CATeam6.Controllers
             if (orders.Count() == 0)
             {
                 ViewData["Orders"] = null;
-                return View(); //TODO: Returns view of no orders
+                return View(); 
             }
 
             ViewData["Orders"] = orders;
 
 
             //Creates list of all order details based off list of orders
-            List<List<OrderDetails>> orderDetails = new List<List<OrderDetails>>();
-            foreach (Orders order in orders) orderDetails.Add(dbContext.OrderDetails.Where(x => x.OrdersId == order.Id).ToList());
-            ViewData["OrderDetails"] = orderDetails;
+            List<OrderDetails> orderDetailsList = new List<OrderDetails>();
+            foreach (Orders o in orders) {
+                List<OrderDetails> odl = dbContext.OrderDetails.Where(x => x.OrdersId == o.Id).ToList();
+                foreach (OrderDetails od in odl) {
+                    orderDetailsList.Add(od);     
+                }
+
+            } 
+            ViewData["OrderDetails"] = orderDetailsList;
 
             //Creates a reference list of products
             List<Products> products = dbContext.Products.ToList();
