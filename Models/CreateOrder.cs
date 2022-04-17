@@ -21,8 +21,13 @@ namespace CATeam6.Models
         {
             Dictionary<Products, int> orderDetail = FindProducts();
             NewOrder(orderDetail);
-
+            List<Cart> todelete = createOrderDB.Carts.Where(x => x.UserId.Id == UserId).ToList();
+            foreach (Cart c in todelete) {
+                createOrderDB.Remove(c);
+            }
+            createOrderDB.SaveChanges();
         }
+        
         private Dictionary<Products, int> FindProducts()
         {
             List<Cart> cart = createOrderDB.Carts.Where(x => x.UserId.Id == this.UserId).ToList(); //Find all CartItem of user
