@@ -85,8 +85,6 @@ namespace CATeam6.Controllers
             //Merge session cart and user cart if required
             List<Cart> sessionCart = dBContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
             
-
-
             if (sessionCart.Count() >= 0)
             {
                 List<Cart> userCart = dBContext.Carts.Where(x => x.UserId.Id == user.Id).ToList();
@@ -97,11 +95,12 @@ namespace CATeam6.Controllers
                         Cart tempCart = dBContext.Carts.FirstOrDefault(x => x.Product.ProductId == c.Product.ProductId && x.SessionId.Id == session.Id && x.UserId == null);
                         c.Quantity = c.Quantity + tempCart.Quantity;
                         dBContext.Remove(tempCart);
-                    }
-                    if (dBContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.UserId == null) != null) //brand new products in session and not tagged to user
-                    { 
-                        c.UserId = user;
-                    }   
+                    } 
+                }
+                if (dBContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.UserId == null) != null) //brand new products in session and not tagged to user
+                {
+                    Cart tempCart = dBContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.UserId == null);
+                    tempCart.UserId = user;
                 }
                 dBContext.SaveChanges();
             }
