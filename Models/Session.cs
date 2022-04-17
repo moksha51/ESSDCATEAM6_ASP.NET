@@ -11,11 +11,11 @@ namespace CATeam6.Models
         public Session()
         {
             Id = new Guid();
-            Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            Timestamp = DateTimeOffset.Now;
         }
 
         public Guid Id { get; set; }
-        public long Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
         public virtual User User { get; set; }
     }
 }
