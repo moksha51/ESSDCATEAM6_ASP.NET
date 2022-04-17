@@ -135,41 +135,41 @@ namespace CATeam6.Controllers
 
         public IActionResult Subtract(int id)
         {
+            int pid = id;
             Cart cartItem;
-            double amt;
-            string userCartAmt;
 
             Session session = GetSession();
 
             if (session.User == null)
             {
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == id);
-                cartItem.Quantity--;
-                if (cartItem.Quantity < 1) {
-                    dbContext.Remove(cartItem);
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == pid);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity--;
+                    if (cartItem.Quantity < 1)
+                    {
+                        dbContext.Remove(cartItem);
+                    }
+                    dbContext.SaveChanges();
                 }
-                dbContext.SaveChanges();
-                amt = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
-                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
             }
             else
             {
 
-                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == id);
-                cartItem.Quantity--;
-                if (cartItem.Quantity < 1)
-                {
-                    dbContext.Remove(cartItem);
-                }
-                dbContext.SaveChanges();
-                amt = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
-                userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
+                cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == pid);
+                if (cartItem != null) {
+                    cartItem.Quantity--;
+                    if (cartItem.Quantity < 1)
+                    {
+                        dbContext.Remove(cartItem);
+                    }
+                    dbContext.SaveChanges();
+                }                    
             }
 
             return Json(new
             {
-                status = "success",
-                userCartAmt
+                status = "success"
             });
         }
 
