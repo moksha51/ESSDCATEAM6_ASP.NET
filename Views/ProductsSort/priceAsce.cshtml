@@ -2,7 +2,10 @@
     ViewData["Title"] = "Home Page";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
     List<Products> priceAsce = (List<Products>)ViewData["priceAsce"];
-    
+    List<Products> nameAsce = (List<Products>)ViewData["nameAsce"];
+    List<Products> nameDesc = (List<Products>)ViewData["nameDesc"];
+    List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
+    Layout = "_Layout";
     string searchStr = (string)ViewData["searchStr"];
 
 }
@@ -12,15 +15,12 @@
     <form action="/Search/" method="POST" style="padding:20px">
         <b>Search Products:</b> <input name="searchStr" value="@searchStr" style="width:75%" />
     </form>
-
-    <p></p>
 }
 <b>Sort By:</b>
-<a href="/ProductsSort/PriceAsce"><b>Low to High</b></a> |
-<a href="/ProductsSort/PriceDesc">High to Low</a> |
-<a href="/ProductsSort/NameAsce">A to Z</a> |
-<a href="/ProductsSort/NameDesc">Z to A</a> |
-<a href="/Home/Index">Clear</a>
+<a href="@Url.Action("priceAsce", "ProductsSort")"><b>Low to High</b></a> |
+<a href="@Url.Action("priceDesc", "ProductsSort")">High to Low</a> |
+<a href="@Url.Action("nameAsce", "ProductsSort")">A to Z</b></a> |
+<a href="@Url.Action("nameDesc", "ProductsSort")">A to Z</a> |
 
 <div class="container">
     <div class="row mx-auto">

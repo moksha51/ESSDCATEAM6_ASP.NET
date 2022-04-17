@@ -3,7 +3,7 @@
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
     List<Products> priceAsce = (List<Products>)ViewData["priceAsce"];
     List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
-
+    Layout = "~/Views/Shared/_Layout.cshtml";
     string searchStr = (string)ViewData["searchStr"];
 
 }
@@ -22,10 +22,10 @@
     <p></p>
 }
 <b>Sort By:</b>
-<a href="/Sort/SortAsce">Low to High</a> |
-<a href="/Sort/SortDesc">High to Low</a> |
-<a href="/Sort/SortNameA">A to Z</a> |
-<a href="/Sort/SortNameZ">Z to A</a> |
+<a href="@Url.Action("priceAsce", "ProductsSort")">Low to High</a> |
+<a href="@Url.Action("priceDesc", "ProductsSort")">High to Low</a> |
+<a href="@Url.Action("nameAsce", "ProductsSort")">A to Z</a> |
+<a href="@Url.Action("nameDesc", "ProductsSort")">A to Z</a> |
 
 
 
@@ -47,7 +47,6 @@
                     <div class="card-text text-center">
                         @*below buttons are for testing purposes; For reference: Actual buttons/links need <... id="@products.ProductId" class="add_btn"/"subtract_btn" ...></> to work*@
                         <a id="@products.ProductId" class="add_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        <a id="@products.ProductId" class="subtract_btn"><i id="@products.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>Remove from cart</a>
                     </div>
 
                 </div>

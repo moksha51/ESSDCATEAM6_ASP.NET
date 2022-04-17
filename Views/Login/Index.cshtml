@@ -1,13 +1,18 @@
 @{
     ViewData["Title"] = "Login";
     List<Products> allProducts = (List<Products>)ViewData["allProducts"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
     string searchStr = (string)ViewData["searchStr"];
 }
 
 
 
+
+
 <form action="/Login/Login" method="POST">
     <div style="text-align:center">
+        <h3>Login to purchase items or view orders</h3>
+        <br />
         <div class="my_tbl">
             <div class="my_row">
                 <div class="my_cell">

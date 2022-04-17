@@ -2,6 +2,7 @@
     ViewData["Title"] = "View Cart";
     List<Cart> cartItems = (List<Cart>)ViewData["cart"];
     var userCartAmt = ViewData["userCartAmt"];
+    Layout = "_Layout";
 
 }
 
@@ -19,7 +20,6 @@
     {
         <div class="cartEmptyDiv">
             <h3 id="cartEmptyMessage" style="text-align:center; padding: 20px;">Your cart is empty!</h3>
-            <img id="cartEmptyMessage_Emoji" src="~/img/CryingFaceEmoji.png" class="cart_CryingFaceEmoji" />
         </div>
     }
     else

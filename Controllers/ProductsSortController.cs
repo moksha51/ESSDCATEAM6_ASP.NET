@@ -3,6 +3,12 @@ using CATeam6.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace CATeam6.Controllers
 {
@@ -41,7 +47,7 @@ namespace CATeam6.Controllers
             List<Products> nameAsce = allProducts.OrderBy(x => x.ProductName).ToList();
 
             ViewData["AllProducts"] = allProducts;
-            ViewData["nameA"] = nameAsce;
+            ViewData["nameAsce"] = nameAsce;
             return View();
         }
 
@@ -51,7 +57,7 @@ namespace CATeam6.Controllers
             List<Products> nameDesc = allProducts.OrderByDescending(x => x.ProductName).ToList();
 
             ViewData["AllProducts"] = allProducts;
-            ViewData["nameZ"] = nameDesc;
+            ViewData["nameDesc"] = nameDesc;
             return View();
         }
     }

@@ -126,7 +126,7 @@ namespace CATeam6.Controllers
 
             return Json(new
             {
-                status = "success",
+                status = "Item Added to Cart",
                 userCartAmt
             });
 
