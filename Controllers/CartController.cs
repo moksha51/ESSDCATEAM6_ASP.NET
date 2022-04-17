@@ -145,6 +145,9 @@ namespace CATeam6.Controllers
             {
                 cartItem = dbContext.Carts.FirstOrDefault(x => x.SessionId.Id == session.Id && x.Product.ProductId == id);
                 cartItem.Quantity--;
+                if (cartItem.Quantity < 1) {
+                    dbContext.Remove(cartItem);
+                }
                 dbContext.SaveChanges();
                 amt = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");
@@ -154,6 +157,10 @@ namespace CATeam6.Controllers
 
                 cartItem = dbContext.Carts.FirstOrDefault(x => x.UserId.Id == session.User.Id && x.Product.ProductId == id);
                 cartItem.Quantity--;
+                if (cartItem.Quantity < 1)
+                {
+                    dbContext.Remove(cartItem);
+                }
                 dbContext.SaveChanges();
                 amt = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).Sum(x => x.Quantity * x.Product.UnitPrice);
                 userCartAmt = Math.Round(amt, 2).ToString("#,0.00");

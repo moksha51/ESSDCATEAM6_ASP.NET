@@ -1,8 +1,13 @@
-@{ ViewData["Title"] = "Purchased";
-    List<Products> allProducts = (List<Products>)ViewData["allProducts"];
-    List<OrderDetails> orderdetails = (List<OrderDetails>)ViewData["orderdetails"];
-    List<Products> priceDesc = (List<Products>)ViewData["priceDesc"];
+@{  ViewData["Title"] = "Purchases";
+    List<Products> allProducts = (List<Products>)ViewData["Products"];
+    List<OrderDetails> orderDetailList = (List<OrderDetails>)ViewData["OrderDetails"];
+    List<Orders> ordersList = (List<Orders>)ViewData["Orders"];
+    User user = (User)ViewData["User"];
     string searchStr = (string)ViewData["searchStr"];
+
+
+
+
 }
 
 @{
@@ -10,30 +15,63 @@
         <b>Search Products:</b> <input name="searchStr" value="@searchStr" style="width:75%" />
     </form>
 }
-
-<div class="container">
-    <div class="row mx-auto">
-        @foreach (OrderDetails od in orderdetails)
-        {
-            foreach (Products products in allProducts)
+@if (ordersList != null)
+    
+{
+    <div class="container">
+        <div class="row mx-auto">
+            @foreach (Orders o in ordersList)
             {
-                if (od.ProductId == products.Id) //can't test this code cause cannot add to cart - XJ
-                {
-                    <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
-                        <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/img/@products.IconURL" alt="Product Image TBF">
+                <h2>@o.OrderDateTime</h2>
+                var iter = from od in orderDetailList
+                           where od.OrdersId == o.Id
+                           select new
+                           {
+                               od.ProductId,
+                               od.SerialCode
+                           };
+                var iter2 = from od in iter
+                            group od by od.ProductId;
 
-                        <div class="card-body">
-                            <h5 class="card-title text-center">@products.ProductName</h5>
-                            <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice</p>
-                            <p class="card-text text-center" id="@products.ProductId"></p>
-                        </div>
-                        <div class="card-text text-center">
-                            <a class="btn btn-primary" style="color:white; background-color:royalblue; border-color:royalblue;">Purchased</a>
-                            <a class="btn btn-primary" style="color: white; background-color:dimgrey; border-color:dimgrey; margin: 1rem;">@od.SerialCode</a>
-                        </div>
-                    </div>
+
+                foreach (Products products in allProducts)
+                {
+                    foreach (var grp in iter2)
+                    {
+                        if (grp.Key == products.Id) //can't test this code cause cannot add to cart - XJ
+                        {
+                            <div class="card m-10 p-10" style="width: 18rem; margin: 0.5rem;">
+                                <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/img/@products.IconURL" alt="Product Image TBF">
+
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">@products.ProductName</h5>
+                                    <p class="card-text text-center" style="font-weight:bold">$@products.UnitPrice</p>
+                                    <p class="card-text text-center" id="@products.ProductId"></p>
+                                    <p class="card-text text-center" id="@grp.Count()"></p>
+                                </div>
+                                @foreach (var p in grp) { 
+                                    <div class="card-text text-center">
+                                        <a class="btn btn-primary" style="color:white; background-color:royalblue; border-color:royalblue;">Purchased</a>
+                                        <a class="btn btn-primary" style="color: white; background-color:dimgrey; border-color:dimgrey; margin: 1rem;">@p.SerialCode</a>
+                                    </div>
+                                } 
+                      
+                            </div>
+                        }
+                    }
+
                 }
+
+
+
             }
-        }
+
+
+        </div>
     </div>
-</div>
+}
+
+else { 
+    <h1>No purchase history.</h1>
+}
+
