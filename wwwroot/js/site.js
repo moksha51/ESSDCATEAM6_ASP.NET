@@ -1,6 +1,7 @@
 ﻿window.onload = function () {
     let addButtons = document.getElementsByClassName("add_btn");
     let removeButtons = document.getElementsByClassName("subtract_btn");
+    let cart = document.getElementsByClassName("cartItem");
 
     // adding event listeners
     for (let i = 0; i < addButtons.length; i++) {
@@ -9,9 +10,8 @@
     for (let i = 0; i < removeButtons.length; i++) {
         removeButtons[i].addEventListener('click', OnClickSubtract);
     }
-    let elems = document.getElementsByClassName("cartQtyBox");
-    for (let i = 0; i < elems.length; i++) {
-        elems[i].addEventListener('input', UpdatePrice);
+    for (let i = 0; i < cart.length; i++) {
+        cart[i].addEventListener('click', DumpIntoTheVoid);
     }
 }
 
@@ -27,11 +27,7 @@ function AddToCart(id) {
     xhr.onreadystatechange = function () {
         if (this.readyState == XMLHttpRequest.DONE) {
             if (this.status == 200) {
-                window.alert("success")
                 let data = JSON.parse(this.responseText);
-                //document.getElementById('CartCount').innerHTML = data.totalItem;
-                //document.getElementById('ProductCount').innerHTML = data.itemCount; 
-
                 if (data.status == "success") {
                     window.location.href = "/Home/Index";
                 }
@@ -53,11 +49,7 @@ function RemoveFromCart(id) {
     xhr.onreadystatechange = function () {
         if (this.readyState == XMLHttpRequest.DONE) {
             if (this.status == 200) {
-                window.alert("success")
                 let data = JSON.parse(this.responseText);
-                //document.getElementById('CartCount').innerHTML = data.totalItem;
-                //document.getElementById('ProductCount').innerHTML = data.itemCount; 
-
                 if (data.status == "success") {
                     window.location.href = "/Home/Index";
                 }
@@ -140,3 +132,29 @@ function AjaxUpdateCartDB(productId, value) {
     xhr.send(JSON.stringify(cartUpdate));
 }
 */
+
+function DumpIntoTheVoid(event) {
+    if (confirm("Confirm remove from cart?") == true) {
+        DeleteFromCart(event.target.id);
+    }
+}
+function DeleteFromCart(id)
+{
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Cart/Remove");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            let data = JSON.parse(this.responseText);
+            if (this.status == 200) {
+                if (data.status == "success") {
+                    window.location.href = "/Cart";
+                }
+            }
+        }
+    }
+    let itemToRemove = {
+        ProductId: id
+    }
+    xhr.send(JSON.stringify(itemToRemove));
+};

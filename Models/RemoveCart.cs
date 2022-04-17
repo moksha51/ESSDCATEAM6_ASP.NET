@@ -6,6 +6,6 @@ namespace CATeam6.Models
 {
     public class RemoveCart
     {
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
     }
 }
