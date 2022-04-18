@@ -18,7 +18,6 @@
         <div class="row mx-auto">
             @foreach (Orders o in ordersList)
             {
-                <h2>@o.OrderDateTime</h2>
                 var iter = from od in orderDetailList
                            where od.OrdersId == o.Id
                            select new
@@ -46,10 +45,11 @@
                                     <p class="card-text text-center" id="@grp.Count()"></p>
                                 </div>
                                 @foreach (var p in grp) { 
-                                    <div class="card-text text-center">
-                                        <a class="btn btn-primary" style="color:white; background-color:royalblue; border-color:royalblue;">Purchased</a>
-                                        <a class="btn btn-primary" style="color: white; background-color:dimgrey; border-color:dimgrey; margin: 1rem;">@p.Id.ToString()</a>
-                                    </div>
+                            <div class="card-text text-center">
+                                <a class="btn btn-primary" style="color:white; background-color:royalblue; border-color:royalblue;">Purchased</a>
+                                <a class="btn btn-primary" style="color: white; background-color:dimgrey; border-color:dimgrey; margin: 1rem;">@p.Id.ToString()</a>
+                                <a class="btn btn-primary" style="color: black; background-color:white; border-color:white; margin: 1rem;">@o.OrderDateTime</a>
+                            </div>
                                 } 
                       
                             </div>

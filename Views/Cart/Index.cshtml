@@ -12,15 +12,12 @@
 </head>
 
 <body id="cartBody">
-    <p id="cartTop" style="color:white;">S</p>
-
-
     @if (cartItems.Count == 0)
     {
-        <div class="cartEmptyDiv">
-            <h3 id="cartEmptyMessage" style="text-align:center; padding: 20px;">Your cart is empty!</h3>
-            <img id="cartEmptyMessage_Emoji" src="~/img/CryingFaceEmoji.png" class="cart_CryingFaceEmoji" />
-        </div>
+<div class="cartEmptyDiv">
+    <h3 id="cartEmptyMessage" style="text-align:center; padding: 20px;"></h3>
+        <img src="~/Image/EmptyCart.png" alt="Center align image inside div using html and css" />
+    </div>
     }
     else
     {
@@ -60,11 +57,12 @@
                         <span id=@placeholder2 class="unitprice">$@cartitem.Product.UnitPrice.ToString("0.00")</span>
                     </td>
                     <td>
-                        <div class="card-text text-center">
-                        @*below buttons are for testing purposes; For reference: Actual buttons/links need <... onclick="Add/Subtract(@products.ProductId);" class="add_btn"/"subtract_btn" ...></> to work*@
-                        @cartitem.Quantity<br><br />
-                        <a onclick="AddInCart(@cartitem.Product.ProductId);" class="add_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>+</a>
-                        <a onclick="RemoveInCart(@cartitem.Product.ProductId);" class="subtract_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>-</a>
+                        <div>
+                            @*below buttons are for testing purposes; For reference: Actual buttons/links need <... onclick="Add/Subtract(@products.ProductId);" class="add_btn"/"subtract_btn" ...></> to work*@
+                            <a id="cartEmptyMessage" style="text-align:center; padding: 20px;"> @cartitem.Quantity</a>
+                            <p></p>
+                            <a onclick="AddInCart(@cartitem.Product.ProductId);" class="add_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>+</a>
+                            <a onclick="RemoveInCart(@cartitem.Product.ProductId);" class="subtract_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>-</a>
                         </div>
                     </td>
                     <td id=@placeholder class="subtotals">
@@ -72,7 +70,7 @@
                     </td>
                     <td>
                         @*This is the button that activates the remove-item-from-cart js. Required is: <id="@cartitem.Product.ProductId" class="cartItem"><>*@
-                        <a id="@cartitem.Product.Id" class="cartItem"><img id="@cartitem.Product.ProductId" src="/img/RemoveFromCartIcon.png" class="cart_RemoveIcon"></a>
+                        <a id="@cartitem.Product.Id" class="cartItem"><img style="width: 50px; height: 50px " id="@cartitem.Product.ProductId" src="/Image/RemoveFromCartIcon.png" class="cart_RemoveIcon"></a>
                     </td>
                 </tr>
             }
