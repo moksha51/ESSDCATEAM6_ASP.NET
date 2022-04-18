@@ -41,7 +41,7 @@ namespace CATeam6.Controllers
             List<Products> nameAsce = allProducts.OrderBy(x => x.ProductName).ToList();
 
             ViewData["AllProducts"] = allProducts;
-            ViewData["nameA"] = nameAsce;
+            ViewData["nameAsce"] = nameAsce;
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace CATeam6.Controllers
             List<Products> nameDesc = allProducts.OrderByDescending(x => x.ProductName).ToList();
 
             ViewData["AllProducts"] = allProducts;
-            ViewData["nameZ"] = nameDesc;
+            ViewData["nameDesc"] = nameDesc;
             return View();
         }
     }

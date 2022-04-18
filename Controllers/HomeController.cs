@@ -35,6 +35,7 @@ namespace CATeam6.Controllers
                 dBContext.SaveChanges();
                 string newSessionId = newSession.Id.ToString();
                 Response.Cookies.Append("SessionId", newSessionId);
+                session = newSession;
             }
 
             //TODO: Display cart status based on session

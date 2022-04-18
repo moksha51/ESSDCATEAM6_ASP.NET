@@ -52,16 +52,19 @@
 
                 <tr id=@placeholder3 class="itemRow">
                     <td>
-                        <img src="/img/@cartitem.Product.IconURL">
+                        <img class="card-img-top mx-auto" style="width: 150px;height: 150px; margin: 1rem" src="/Image/@cartitem.Product.IconURL" alt="Product Image TBF">
                     </td>
                     <td>
                         <b>@cartitem.Product.ProductName</b><br>
                         @cartitem.Product.ProductDescription.<br><br />
-                        <span id=@placeholder2 class="unitprice">$@cartitem.Product.UnitPrice</span>
+                        <span id=@placeholder2 class="unitprice">$@cartitem.Product.UnitPrice.ToString("0.00")</span>
                     </td>
                     <td>
-                        <div>
-                            <input id=@cartitem.Product.ProductId type="number" step="1" min="1" max="" name="quantity" value="@cartitem.Quantity" title="qty" class="cart_QuantityBox" size="4" pattern="" inputmode="">
+                        <div class="card-text text-center">
+                        @*below buttons are for testing purposes; For reference: Actual buttons/links need <... onclick="Add/Subtract(@products.ProductId);" class="add_btn"/"subtract_btn" ...></> to work*@
+                        @cartitem.Quantity<br><br />
+                        <a onclick="AddInCart(@cartitem.Product.ProductId);" class="add_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>+</a>
+                        <a onclick="RemoveInCart(@cartitem.Product.ProductId);" class="subtract_btn"><i id="@cartitem.Product.ProductId" class="fas fa-shopping-cart text-primary mr-1"></i>-</a>
                         </div>
                     </td>
                     <td id=@placeholder class="subtotals">

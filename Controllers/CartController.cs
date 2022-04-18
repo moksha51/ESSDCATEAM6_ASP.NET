@@ -63,6 +63,27 @@ namespace CATeam6.Controllers
                     ViewData["userCartAmt"] = userCartAmt;
                 }
             }
+            //start of cartqty counter
+            int totalqty = 0;
+            List<Cart> currentCart = new List<Cart>();
+            if (session.User == null)
+            {
+                currentCart = dbContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
+                foreach (Cart c in currentCart)
+                {
+                    totalqty = totalqty + c.Quantity;
+                }
+            }
+            else if (session.User != null)
+            {
+                currentCart = dbContext.Carts.Where(x => x.UserId.Id == session.User.Id).ToList();
+                foreach (Cart c in currentCart)
+                {
+                    totalqty = totalqty + c.Quantity;
+                }
+            }
+            ViewData["totalQuantity"] = totalqty;
+            //end of cartqty counter
             return View("Index");
         }
         [HttpPost]

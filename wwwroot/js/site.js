@@ -1,4 +1,5 @@
-﻿window.onload = function () {
+﻿
+window.onload = function () {
     let addButtons = document.getElementsByClassName("add_btn");
     let removeButtons = document.getElementsByClassName("subtract_btn");
     let cart = document.getElementsByClassName("cartItem");
@@ -17,8 +18,11 @@
     }
 }
 
+
+
 function OnClickAdd(event) {
     AddToCart(event.target.id);
+    //return false;
 }
 function AddToCart(id) {
     let xhr = new XMLHttpRequest();
@@ -68,34 +72,35 @@ function RemoveFromCart(id) {
  * 
 function UpdatePrice(event) {
     let target = event.currentTarget;
-    let productId = target.id;
+    let id = target.id;
 
-    let subtotalId = "subtotal" + productId;
-    let unitpriceId = "unitprice" + productId;
+    let subtotalId = "subtotal" + id;
+    let unitpriceId = "unitprice" + id;
 
-    let value = document.getElementById(productId).value * 1;
+    let value = document.getElementById(id).quantity * 1;
 
     let unitprice = parseFloat(document.getElementById(unitpriceId).innerHTML.substring(1));
 
-    if (value < 1 || !Number.isInteger(value)) {
+    if (value < 1 || !Number.isInteger(quantity)) {
         alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
-        document.getElementById(productId).value = 1;
+        document.getElementById(id).quantity = 1;
         document.getElementById(subtotalId).innerHTML = "$" + unitprice;
 
         subtotalgroup = document.getElementsByClassName("subtotals");
 
     }
 
-    value = document.getElementById(productId).value * 1;
+    quantity = document.getElementById(id).Quantity * 1;
 
-    AjaxUpdateCartDB(productId, value);
+
+    AjaxUpdateCartDB(id, quantity);
 
     let newsubtotal;
 
-    if (isNaN(value)) {
+    if (isNaN(quantity)) {
         newsubtotal = 0 * unitprice;
     } else {
-        newsubtotal = value * unitprice;
+        newsubtotal = quantity * unitprice;
     }
 
 
@@ -107,7 +112,8 @@ function UpdatePrice(event) {
 
     document.getElementById(subtotalId).innerHTML = "$" + finalsubtotal;
 }
-function AjaxUpdateCartDB(productId, value) {
+
+function AjaxUpdateCartDB(id, quantity) {
     let xhr = new XMLHttpRequest();
 
     xhr.open("POST", "/Cart/Update");
@@ -116,24 +122,92 @@ function AjaxUpdateCartDB(productId, value) {
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status == 200) {
-                let total = document.getElementById("totalPriceBottom");
+                //let total = document.getElementById("totalPriceBottom");
                 let data = JSON.parse(this.responseText);
 
                 if (data.status == "success") {
                     total.innerHTML = "Total: $" + data.userCartAmt;
+                    // window.location.href = "/Cart";
                 }
             }
         }
     };
 
 
-    let cartUpdate = {
-        ProductId: productId,
-        Quantity: value
+    let values = {
+        ProductId: id,
+        Quantity: quantity
     };
-    xhr.send(JSON.stringify(cartUpdate));
+    xhr.send(JSON.stringify(values));
 }
+
+function UpdateCart(id) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Cart/Update");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            let data = JSON.parse(this.responseText);
+            if (this.status == 200) {
+                if (data.status == "success") {
+                    window.location.href = "/Cart";
+                }
+            }
+        }
+    }
+    let values = {
+        ProductId: id,
+        Quantity: quantity
+    };
+    xhr.send(JSON.stringify(values));
+
 */
+
+
+function OnClickAddCart(event) {
+    AddInCart(event.target.id);
+    //return false;
+}
+function AddInCart(id) {
+    let xhr = new XMLHttpRequest();
+    let url = "/Cart/Add/" + id;
+    xhr.open("POST", url);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                    window.location.href = "/Cart";
+                }
+            }
+        }
+    }
+    xhr.send();
+}
+
+function OnClickSubtractCart(event) {
+    RemoveInCart(event.target.id);
+}
+function RemoveInCart(id) {
+    let xhr = new XMLHttpRequest();
+    let url = "/Cart/Subtract/" + id;
+    xhr.open("POST", url);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                   window.location.href = "/Cart";
+                }
+            }
+        }
+    }
+    xhr.send();
+}
 
 function DumpIntoTheVoid(event) {
     if (confirm("Confirm remove from cart?") == true) {

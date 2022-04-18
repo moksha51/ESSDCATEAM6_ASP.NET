@@ -145,7 +145,7 @@ namespace CATeam6.DB
         public void SeedUsers()
         {
             HashAlgorithm sha = SHA256.Create();
-            string[] usernames = { "john", "lisa" };
+            string[] usernames = { "Daddy", "Guru" };
             string password = "secret";
             foreach (string username in usernames)
             {
