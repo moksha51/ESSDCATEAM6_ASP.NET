@@ -24,12 +24,12 @@ namespace CATeam6.Controllers
             this.dBContext = dBContext;
         }
 
-        
+
         public IActionResult Index()
         {
             Session session = ValidateSession();
             // No cookie (Brand new user) case: Make cookies
-            if (session == null) {               
+            if (session == null) {
                 Session newSession = new Session();
                 dBContext.Add(newSession);
                 dBContext.SaveChanges();
@@ -40,7 +40,30 @@ namespace CATeam6.Controllers
             //TODO: Display cart status based on session
             DBUtility db = new DBUtility(dBContext);
             List<Products> allProducts = dBContext.Products.ToList(); //Show all products on the Homepage 
+
+
+            //start of cartqty counter
+            int totalqty = 0;
+            List<Cart> currentCart = new List<Cart>();
+            if (session.User == null)
+            {
+                currentCart = dBContext.Carts.Where(x => x.SessionId.Id == session.Id).ToList();
+                foreach (Cart c in currentCart) {
+                    totalqty = totalqty + c.Quantity;
+                }
+            }
+            else if (session.User != null) {
+                currentCart = dBContext.Carts.Where(x => x.UserId.Id == session.User.Id).ToList();
+                foreach (Cart c in currentCart)
+                {
+                    totalqty = totalqty + c.Quantity;
+                }
+            }
+            ViewData["totalQuantity"] = totalqty;
+            //end of cartqty counter
+
             ViewData["AllProducts"] = allProducts;
+            
             return View();
         }
 
