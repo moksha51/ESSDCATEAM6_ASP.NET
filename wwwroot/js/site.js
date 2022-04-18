@@ -8,10 +8,11 @@
     for (let i = 0; i < addButtons.length; i++) {
         addButtons[i].addEventListener('click', OnClickAdd);
     }
-    */
+    
     for (let i = 0; i < removeButtons.length; i++) {
         removeButtons[i].addEventListener('click', OnClickSubtract);
     }
+    */
     for (let i = 0; i < cart.length; i++) {
         cart[i].addEventListener('click', DumpIntoTheVoid);
     }
