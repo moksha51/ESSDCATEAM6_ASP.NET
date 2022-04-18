@@ -4,9 +4,11 @@
     let cart = document.getElementsByClassName("cartItem");
 
     // adding event listeners
+    /*
     for (let i = 0; i < addButtons.length; i++) {
         addButtons[i].addEventListener('click', OnClickAdd);
     }
+    */
     for (let i = 0; i < removeButtons.length; i++) {
         removeButtons[i].addEventListener('click', OnClickSubtract);
     }
